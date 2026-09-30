@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Birthday Archive</title>
+
+    <!-- FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ==============================
+           BASIC
+        ============================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #fff9f4;
+            color: #353235;
+            font-family: "DM Sans", sans-serif;
+            overflow-x: hidden;
+        }
+
+        .serif {
+            font-family: "Playfair Display", serif;
+        }
+
+
+        /* ==============================
+           LOADING SCREEN
+        ============================== */
+
+        #loading {
+            position: fixed;
+            inset: 0;
+            background: #fff9f4;
+            z-index: 9999;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition: opacity 1s ease,
+                visibility 1s ease;
+        }
+
+        #loading.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-content {
+            text-align: center;
+            width: 80%;
+            max-width: 450px;
+        }
+
+        .loading-small {
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: #888084;
+            margin-bottom: 18px;
+        }
+
+        .loading-title {
+            font-family: "Playfair Display", serif;
+            font-size: 42px;
+            font-weight: 400;
+        }
+
+        .loading-line {
+            width: 0;
+            height: 1px;
+            background: #353235;
+            margin: 25px auto 10px;
+
+            animation: loadingBar 2.2s ease forwards;
+        }
+
+        .loading-year {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #888084;
+        }
+
+        @keyframes loadingBar {
+
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+
+        }
+
+
+        /* ==============================
+           GENERAL SECTION
+        ============================== */
+
+        section {
+            min-height: 100vh;
+            padding: 100px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .section-number {
+            position: absolute;
+            top: 35px;
+            right: 7%;
+
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #8a8388;
+        }
+
+        .section-label {
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #8a8388;
+            margin-bottom: 20px;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(35px);
+
+            transition:
+                opacity .9s ease,
+                transform .9s ease;
+        }
+
+        .reveal.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* ==============================
+           WELCOME
+        ============================== */
+
+        #welcome {
+            text-align: center;
+
+            background:
+                radial-gradient(circle at 15% 20%,
+                    rgba(232, 207, 208, .5),
+                    transparent 25%),
+
+                radial-gradient(circle at 85% 75%,
+                    rgba(221, 214, 235, .5),
+                    transparent 25%),
+
+                #fff9f4;
+        }
+
+        .welcome-content {
+            max-width: 800px;
+        }
+
+        .welcome-small {
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #888084;
+
+            margin-bottom: 25px;
+        }
+
+        .welcome-title {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(60px, 12vw, 130px);
+
+            font-weight: 400;
+            line-height: .88;
+
+            letter-spacing: -5px;
+        }
+
+        .welcome-name {
+            color: #c9969a;
+            font-style: italic;
+        }
+
+        .welcome-quote {
+            margin: 40px auto;
+
+            font-family: "Playfair Display", serif;
+            font-style: italic;
+
+            font-size: 17px;
+            line-height: 1.7;
+
+            color: #777075;
+        }
+
+        .enter-button {
+            border: 1px solid #353235;
+            background: transparent;
+
+            padding: 15px 30px;
+
+            cursor: pointer;
+
+            font-size: 10px;
+            letter-spacing: 3px;
+
+            transition: .3s ease;
+        }
+
+        .enter-button:hover {
+            background: #353235;
+            color: #fff9f4;
+        }
+
+        .scroll-text {
+            position: absolute;
+            bottom: 30px;
+
+            font-size: 9px;
+            letter-spacing: 3px;
+            color: #8a8388;
+        }
+
+
+        /* ==============================
+           PROFILE
+        ============================== */
+
+        #profile {
+            background: #fffdfb;
+        }
+
+        .profile-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 90px;
+
+            align-items: center;
+        }
+
+        .profile-photo-container {
+            position: relative;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        .profile-photo {
+            width: 100%;
+
+            aspect-ratio: 4 / 5;
+
+            object-fit: cover;
+
+            border: 10px solid white;
+
+            box-shadow:
+                0 20px 50px rgba(50, 40, 45, .1);
+
+            transform: rotate(-2deg);
+        }
+
+        .photo-label {
+            position: absolute;
+
+            right: -20px;
+            bottom: 25px;
+
+            background: #ddd6eb;
+
+            padding: 14px 20px;
+
+            font-family: "Playfair Display", serif;
+
+            font-size: 13px;
+
+            transform: rotate(4deg);
+        }
+
+        .profile-title {
+            font-family: "Playfair Display", serif;
+
+            font-size: clamp(55px, 8vw, 90px);
+
+            font-weight: 400;
+
+            line-height: .9;
+
+            margin-bottom: 40px;
+        }
+
+        .profile-info {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            border-top: 1px solid #ddd7d9;
+        }
+
+        .info {
+            padding: 18px 0;
+
+            border-bottom: 1px solid #ddd7d9;
+        }
+
+        .info:nth-child(odd) {
+            border-right: 1px solid #ddd7d9;
+            padding-right: 20px;
+        }
+
+        .info:nth-child(even) {
+            padding-left: 20px;
+        }
+
+        .info-label {
+            display: block;
+
+            font-size: 9px;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+
+            color: #8a8388;
+
+            margin-bottom: 8px;
+        }
+
+        .info-value {
+            font-size: 14px;
+        }
+
+
+        /* ==============================
+           2026 WRAPPED
+        ============================== */
+
+        #wrapped {
+            background: #ddd6eb;
+        }
+
+        .wrapped-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: end;
+
+            margin-bottom: 50px;
+        }
+
+        .wrapped-title {
+            font-family: "Playfair Display", serif;
+
+            font-size: clamp(60px, 10vw, 110px);
+
+            font-weight: 400;
+
+            line-height: .85;
+        }
+
+        .wrapped-description {
+            max-width: 280px;
+
+            color: #777075;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+        }
+
+        .wrapped-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+        .wrapped-card {
+            background: rgba(255, 255, 255, .6);
+
+            padding: 30px 25px;
+
+            min-height: 190px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+
+            transition: .3s ease;
+        }
+
+        .wrapped-card:hover {
+            transform: translateY(-7px);
+        }
+
+        .card-label {
+            font-size: 9px;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+
+            color: #807980;
+        }
+
+        .card-value {
+            font-family: "Playfair Display", serif;
+
+            font-size: 30px;
+
+            line-height: 1.1;
+        }
+
+        .card-note {
+            font-size: 10px;
+
+            color: #888084;
+
+            line-height: 1.5;
+        }
+
+
+        /* ==============================
+           MEMORIES
+        ============================== */
+
+        #memories {
+            background: #fff9f4;
+        }
+
+        .memories-heading {
+            text-align: center;
+
+            margin-bottom: 55px;
+        }
+
+        .memories-title {
+            font-family: "Playfair Display", serif;
+
+            font-size: clamp(60px, 10vw, 110px);
+
+            font-weight: 400;
+        }
+
+        .memories-subtitle {
+            margin-top: 15px;
+
+            font-family: "Playfair Display", serif;
+
+            font-style: italic;
+
+            color: #817b80;
+        }
+
+        .gallery {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+        }
+
+        .memory-card {
+            background: white;
+
+            padding: 9px 9px 15px;
+
+            box-shadow:
+                0 15px 35px rgba(50, 40, 45, .08);
+
+            transition: .4s ease;
+        }
+
+        .memory-card:nth-child(1) {
+            transform: rotate(-2deg);
+        }
+
+        .memory-card:nth-child(2) {
+            transform: translateY(30px) rotate(2deg);
+        }
+
+        .memory-card:nth-child(3) {
+            transform: translateY(8px) rotate(-1deg);
+        }
+
+        .memory-card:nth-child(4) {
+            transform: translateY(30px) rotate(2deg);
+        }
+
+        .memory-card:hover {
+            transform:
+                translateY(-10px) rotate(0deg);
+        }
+
+        .memory-card img {
+            width: 100%;
+
+            aspect-ratio: 3 / 4;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+        .memory-caption {
+            font-family: "Playfair Display", serif;
+
+            font-size: 12px;
+
+            padding-top: 12px;
+        }
+
+
+        /* ==============================
+           LETTER
+        ============================== */
+
+        #letter {
+            background: #fffdfb;
+        }
+
+        .letter {
+            max-width: 750px;
+
+            margin: auto;
+
+            text-align: center;
+        }
+
+        .letter-title {
+            font-family: "Playfair Display", serif;
+
+            font-size: clamp(50px, 8vw, 90px);
+
+            font-weight: 400;
+
+            line-height: .95;
+
+            margin-bottom: 50px;
+        }
+
+        .letter-text {
+            font-family: "Playfair Display", serif;
+
+            font-size: 20px;
+
+            line-height: 1.9;
+
+            color: #625d60;
+        }
+
+        .letter-text p+p {
+            margin-top: 25px;
+        }
+
+        .letter-signature {
+            margin-top: 35px;
+
+            font-family: "Playfair Display", serif;
+
+            font-style: italic;
+
+            color: #c9969a;
+        }
+
+
+        /* ==============================
+           FINAL FILE
+        ============================== */
+
+        #final {
+            background: #d5e1e8;
+
+            text-align: center;
+
+            min-height: 80vh;
+        }
+
+        .final-title {
+            font-family: "Playfair Display", serif;
+
+            font-size: clamp(60px, 10vw, 110px);
+
+            font-weight: 400;
+
+            line-height: .85;
+
+            margin-bottom: 30px;
+        }
+
+        .final-subtitle {
+            color: #777075;
+
+            margin-bottom: 30px;
+        }
+
+        .open-button {
+            border: 1px solid #353235;
+
+            background: transparent;
+
+            padding: 15px 30px;
+
+            cursor: pointer;
+
+            font-size: 10px;
+
+            letter-spacing: 3px;
+
+            transition: .3s ease;
+        }
+
+        .open-button:hover {
+            background: #353235;
+            color: white;
+        }
+
+        .final-message {
+            max-width: 650px;
+
+            margin: 35px auto 0;
+
+            padding: 35px;
+
+            background: rgba(255, 255, 255, .6);
+
+            opacity: 0;
+
+            transform: scale(.95);
+
+            pointer-events: none;
+
+            transition: .7s ease;
+        }
+
+        .final-message.show {
+            opacity: 1;
+
+            transform: scale(1);
+
+            pointer-events: auto;
+        }
+
+        .final-message h3 {
+            font-family: "Playfair Display", serif;
+
+            font-size: 30px;
+
+            font-weight: 400;
+
+            margin-bottom: 15px;
+        }
+
+        .final-message p {
+            color: #6f696c;
+
+            line-height: 1.8;
+
+            font-size: 14px;
+        }
+
+
+        /* ==============================
+           ENDING
+        ============================== */
+
+        #ending {
+            text-align: center;
+
+            background:
+                radial-gradient(circle at 20% 20%,
+                    rgba(232, 207, 208, .6),
+                    transparent 25%),
+
+                radial-gradient(circle at 80% 75%,
+                    rgba(221, 214, 235, .6),
+                    transparent 25%),
+
+                #fff9f4;
+        }
+
+        .ending-small {
+            font-size: 10px;
+
+            letter-spacing: 4px;
+
+            color: #888084;
+
+            margin-bottom: 25px;
+        }
+
+        .ending-title {
+            font-family: "Playfair Display", serif;
+
+            font-size: clamp(60px, 12vw, 130px);
+
+            font-weight: 400;
+
+            line-height: .85;
+
+            letter-spacing: -5px;
+        }
+
+        .ending-name {
+            color: #c9969a;
+
+            font-style: italic;
+        }
+
+        .ending-quote {
+            margin: 40px auto;
+
+            font-family: "Playfair Display", serif;
+
+            font-style: italic;
+
+            color: #777075;
+
+            font-size: 17px;
+        }
+
+        .year {
+            font-size: 10px;
+
+            letter-spacing: 4px;
+
+            color: #888084;
+        }
+
+        .replay {
+            margin-top: 50px;
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            font-size: 10px;
+
+            letter-spacing: 2px;
+
+            color: #888084;
+        }
+
+
+        /* ==============================
+           CONFETTI
+        ============================== */
+
+        .confetti {
+            position: fixed;
+
+            top: -20px;
+
+            width: 8px;
+
+            height: 13px;
+
+            z-index: 99999;
+
+            pointer-events: none;
+
+            animation: fall 3.5s linear forwards;
+        }
+
+        @keyframes fall {
+
+            0% {
+                transform:
+                    translateY(0) rotate(0);
+            }
+
+            100% {
+                transform:
+                    translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+
+        }
+
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media (max-width: 800px) {
+
+            section {
+                padding: 90px 6%;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+
+                gap: 60px;
+            }
+
+            .profile-photo-container {
+                width: 80%;
+            }
+
+            .wrapped-header {
+                display: block;
+            }
+
+            .wrapped-description {
+                margin-top: 20px;
+            }
+
+            .wrapped-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr 1fr;
+
+                gap: 12px;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .welcome-title,
+            .ending-title {
+                font-size: 60px;
+
+                letter-spacing: -3px;
+            }
+
+            .profile-title {
+                font-size: 60px;
+            }
+
+            .profile-info {
+                grid-template-columns: 1fr;
+            }
+
+            .info:nth-child(odd) {
+                border-right: none;
+
+                padding-right: 0;
+            }
+
+            .info:nth-child(even) {
+                padding-left: 0;
+            }
+
+            .gallery {
+                gap: 10px;
+            }
+
+            .memory-caption {
+                font-size: 10px;
+            }
+
+            .letter-text {
+                font-size: 17px;
+            }
+
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- ==========================================================
+     LOADING SCREEN
+========================================================== -->
+
+    <div id="loading">
+
+        <div class="loading-content">
+
+            <div class="loading-small">
+                ACCESSING...
+            </div>
+
+            <div class="loading-title">
+                BIRTHDAY ARCHIVE
+            </div>
+
+            <div class="loading-line"></div>
+
+            <div class="loading-year">
+                2026 / PERSONAL FILE
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==========================================================
+     WELCOME
+========================================================== -->
+
+    <section id="welcome">
+
+        <div class="welcome-content reveal">
+
+            <div class="welcome-small">
+                A LITTLE SOMETHING FOR YOU
+            </div>
+
+            <h1 class="welcome-title">
+
+                HAPPY BIRTHDAY,
+
+                <br>
+
+                <span class="welcome-name">
+                    Sel Sel Tumbuhan
+                </span>
+
+            </h1>
+
+
+            <p class="welcome-quote">
+
+                "Enjoy web nya
+                <br>
+                YAAAAAAAA."
+
+            </p>
+
+
+            <button class="enter-button" onclick="enterWebsite()">
+                ENTER →
+            </button>
+
+        </div>
+
+
+        <div class="scroll-text">
+            SCROLL TO EXPLORE
+        </div>
+
+    </section>
+
+
+
+    <!-- ==========================================================
+     PROFILE
+========================================================== -->
+
+    <section id="profile">
+
+        <span class="section-number">
+            01 / PROFILE
+        </span>
+
+
+        <div class="container">
+
+            <div class="profile-grid">
+
+
+                <!-- FOTO PROFILE -->
+                <div class="profile-photo-container reveal">
+
+                    <!-- =========================================
+                     FOTO 1
+                     NAMA FILE: profile.jpg
+
+                     Masukkan foto utama temanmu dengan nama:
+                     profile.jpg
+
+                     ke folder yang sama dengan index.html
+                ========================================== -->
+
+                    <img class="profile-photo" src="sela.jpeg" alt="Profile Photo">
+
+                    <div class="photo-label">
+                        the birthday girl ♡
+                    </div>
+
+                </div>
+
+
+
+                <div class="reveal">
+
+                    <div class="section-label">
+                        CHARACTER INTRODUCTION
+                    </div>
+
+
+                    <h2 class="profile-title">
+                        Sela
+                    </h2>
+
+
+                    <div class="profile-info">
+
+
+                        <div class="info">
+
+                            <span class="info-label">
+                                NAME
+                            </span>
+
+                            <span class="info-value">
+                                Marsela Veni Sandrea
+                            </span>
+
+                        </div>
+
+
+                        <div class="info">
+
+                            <span class="info-label">
+                                AGE
+                            </span>
+
+                            <span class="info-value">
+                                cie kepala 2
+                            </span>
+
+                        </div>
+
+
+                        <div class="info">
+
+                            <span class="info-label">
+                                BIRTHDAY
+                            </span>
+
+                            <span class="info-value">
+                                Angka cantik
+                            </span>
+
+                        </div>
+
+
+                        <div class="info">
+
+                            <span class="info-label">
+                                Favorite Color
+                            </span>
+
+                            <span class="info-value">
+                                Ini warna web nya suka gaa ya kamu
+                            </span>
+
+                        </div>
+
+
+                        <div class="info">
+
+                            <span class="info-label">
+                                CURRENTLY
+                            </span>
+
+                            <span class="info-value">
+                                ACCOUNTING STUDENT
+                            </span>
+
+                        </div>
+
+
+                        <div class="info">
+
+                            <span class="info-label">
+                                Favorite Words
+                            </span>
+
+                            <span class="info-value">
+                                Uhhhhhhh
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==========================================================
+     2026 WRAPPED
+========================================================== -->
+
+    <section id="wrapped">
+
+        <span class="section-number">
+            02 / 2026 WRAPPED
+        </span>
+
+
+        <div class="container">
+
+
+            <div class="wrapped-header reveal">
+
+                <div>
+
+                    <div class="section-label">
+                        A VERY UNOFFICIAL REPORT
+                    </div>
+
+                    <h2 class="wrapped-title">
+                        2026
+                        <br>
+                        Wrapped
+                    </h2>
+
+                </div>
+
+
+                <p class="wrapped-description">
+
+                    A completely accurate
+                    and absolutely unbiased
+                    summary of your year so far WKWKWKW.
+
+                </p>
+
+            </div>
+
+
+
+            <div class="wrapped-grid">
+
+
+                <div class="wrapped-card reveal">
+
+                    <span class="card-label">
+                        MOST SAID
+                    </span>
+
+                    <span class="card-value">
+                        "Uhhhhhhhhhhhh"
+                    </span>
+
+                    <span class="card-note">
+                        heard approximately
+                        928 times
+                    </span>
+
+                </div>
+
+
+
+                <div class="wrapped-card reveal">
+
+                    <span class="card-label">
+                        MOST USED EMOJI
+                    </span>
+
+                    <span class="card-value">
+                        😭😭😭
+                    </span>
+
+                    <span class="card-note">
+                        the official reaction
+                    </span>
+
+                </div>
+
+
+
+                <div class="wrapped-card reveal">
+
+                    <span class="card-label">
+                        FAVORITE ACTIVITY
+                    </span>
+
+                    <span class="card-value">
+                        Nonton, Rapat KSM 😭
+                    </span>
+
+                    <span class="card-note">
+                        Semangat yah
+                    </span>
+
+                </div>
+
+
+
+                <div class="wrapped-card reveal">
+
+                    <span class="card-label">
+                        CURRENT STATUS
+                    </span>
+
+                    <span class="card-value">
+                        Surviving College
+                    </span>
+
+                    <span class="card-note">
+                        accounting edition
+                    </span>
+
+                </div>
+
+
+
+                <div class="wrapped-card reveal">
+
+                    <span class="card-label">
+                        MOST LIKELY TO
+                    </span>
+
+                    <span class="card-value">
+                        Hmzzzz apa yah
+                    </span>
+
+                    <span class="card-note">
+                    </span>
+
+                </div>
+
+
+
+                <div class="wrapped-card reveal">
+
+                    <span class="card-label">
+                        Jujur bingung mau isi apa
+                    </span>
+
+                    <span class="card-value">
+                        
+                    </span>
+
+                    <span class="card-note">
+                        
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==========================================================
+     MEMORIES
+========================================================== -->
+
+    <section id="memories">
+
+        <span class="section-number">
+            03 / MEMORIES
+        </span>
+
+
+        <div class="container">
+
+
+            <div class="memories-heading reveal">
+
+                <div class="section-label">
+                    SCENES WORTH KEEPING
+                </div>
+
+                <h2 class="memories-title">
+                    Memories
+                </h2>
+
+                <p class="memories-subtitle">
+                    "Some moments deserve to stay."
+                </p>
+
+            </div>
+
+
+
+            <div class="gallery">
+
+
+                <!-- FOTO 2 -->
+                <div class="memory-card reveal">
+
+                    <!--
+                    NAMA FILE:
+                    memory1.jpg
+                -->
+
+                    <img src="sela 3.jpeg" alt="Memory 1">
+
+                    <div class="memory-caption">
+                        Christmas 
+                    </div>
+
+                </div>
+
+
+
+                <!-- FOTO 3 -->
+                <div class="memory-card reveal">
+
+                    <!--
+                    NAMA FILE:
+                    memory2.jpg
+                -->
+
+                    <img src="sela 2.jpeg" alt="Memory 2">
+
+                    <div class="memory-caption">
+                        First time photobooth
+                    </div>
+
+                </div>
+
+
+
+                <!-- FOTO 4 -->
+                <div class="memory-card reveal">
+
+                    <!--
+                    NAMA FILE:
+                    memory3.jpg
+                -->
+
+                    <img src="sela 1.jpeg" alt="Memory 3">
+
+                    <div class="memory-caption">
+                        Nah ni barusan
+                    </div>
+
+                </div>
+
+
+
+                <!-- FOTO 5 -->
+                <div class="memory-card reveal">
+
+                    <!--
+                    NAMA FILE:
+                    memory4.jpg
+                -->
+
+                    <img src="profile.jpg.jpeg" alt="Memory 4">
+
+                    <div class="memory-caption">
+                        Bonussssss
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==========================================================
+     THE THINGS I NEVER SAY
+========================================================== -->
+
+    <section id="letter">
+
+        <span class="section-number">
+            04 / A LITTLE LETTER
+        </span>
+
+
+        <div class="container">
+
+            <div class="letter reveal">
+
+                <div class="section-label">
+                    THE THINGS I NEVER SAY
+                </div>
+
+
+                <h2 class="letter-title">
+
+                    A little letter
+                    <br>
+                    for you.
+
+                </h2>
+
+
+                <div class="letter-text">
+
+                    <p>
+
+                        Thank you for being one of
+                        the people who made ordinary
+                        days feel a little less ordinary.
+
+                    </p>
+
+
+                    <p>
+
+                        I still remember when
+                        we hangout together.
+                        Somehow, little moments like that
+                        became memories worth keeping.
+
+                    </p>
+
+
+                    <p>
+
+                        I hope this new chapter brings
+                        you more good days, good people,
+                        good stories, and maybe a few
+                        really good dramas too.
+
+                    </p>
+
+                </div>
+
+
+                <div class="letter-signature">
+
+                    —Lexx
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==========================================================
+     FINAL FILE
+========================================================== -->
+
+    <section id="final">
+
+        <div class="container">
+
+            <div class="reveal">
+
+                <div class="section-label">
+                    FINAL FILE
+                </div>
+
+
+                <h2 class="final-title">
+
+                    Open when
+                    <br>
+                    ready.
+
+                </h2>
+
+
+                <p class="final-subtitle">
+
+                    There is one last thing inside.
+
+                </p>
+
+
+                <button class="open-button" onclick="openMessage()">
+
+                    OPEN 💌
+
+                </button>
+
+
+
+                <div id="finalMessage" class="final-message">
+
+                    <h3>
+                        Happy Birthday, Sel Sel Tumbuhan. 
+                    </h3>
+
+
+                    <p>
+
+                        Another year,
+                        another chapter.
+
+                        I hope you never forget
+                        how many good things
+                        are still waiting for you.
+
+                    </p>
+
+
+                    <p style="margin-top:15px;">
+
+                        Here's to more memories,
+                        more laughter,
+                        more random conversations.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==========================================================
+     ENDING
+========================================================== -->
+
+    <section id="ending">
+
+        <div class="container">
+
+            <div class="reveal">
+
+
+                <div class="ending-small">
+                    END OF ARCHIVE
+                </div>
+
+
+                <h2 class="ending-title">
+
+                    HAPPY
+
+                    <br>
+
+                    <span class="ending-name">
+                        Selaaa
+                    </span>
+
+                    🎂
+
+                </h2>
+
+
+                <p class="ending-quote">
+
+                    "Here's to another year
+                    of memories."
+
+                </p>
+
+
+                <div class="year">
+                    ✦ 2026 ✦
+                </div>
+
+
+                <button class="replay" onclick="replayWebsite()">
+
+                    ↻ REPLAY FROM BEGINNING
+
+                </button>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==========================================================
+     JAVASCRIPT
+========================================================== -->
+
+    <script>
+
+
+        /* ============================
+           LOADING
+        ============================ */
+
+        window.addEventListener("load", function () {
+
+            setTimeout(function () {
+
+                document
+                    .getElementById("loading")
+                    .classList.add("hide");
+
+            }, 2300);
+
+        });
+
+
+
+        /* ============================
+           ENTER WEBSITE
+        ============================ */
+
+        function enterWebsite() {
+
+            document
+                .getElementById("profile")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        }
+
+
+
+        /* ============================
+           SCROLL ANIMATION
+        ============================ */
+
+        const observer =
+            new IntersectionObserver(
+
+                function (entries) {
+
+                    entries.forEach(function (entry) {
+
+                        if (entry.isIntersecting) {
+
+                            entry.target
+                                .classList
+                                .add("show");
+
+                        }
+
+                    });
+
+                },
+
+                {
+                    threshold: 0.12
+                }
+
+            );
+
+
+        document
+            .querySelectorAll(".reveal")
+            .forEach(function (element) {
+
+                observer.observe(element);
+
+            });
+
+
+
+        /* ============================
+           FINAL MESSAGE
+        ============================ */
+
+        function openMessage() {
+
+            const message =
+                document.getElementById(
+                    "finalMessage"
+                );
+
+
+            message.classList.add("show");
+
+
+            createConfetti();
+
+
+            setTimeout(function () {
+
+                message.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            }, 300);
+
+        }
+
+
+
+        /* ============================
+           CONFETTI
+        ============================ */
+
+        function createConfetti() {
+
+            const colors = [
+
+                "#e8cfd0",
+                "#ddd6eb",
+                "#d4dfd0",
+                "#d5e1e8",
+                "#c9969a"
+
+            ];
+
+
+            for (
+                let i = 0;
+                i < 60;
+                i++
+            ) {
+
+                const piece =
+                    document.createElement("div");
+
+
+                piece.className =
+                    "confetti";
+
+
+                piece.style.left =
+                    Math.random() * 100 + "vw";
+
+
+                piece.style.background =
+                    colors[
+                    Math.floor(
+                        Math.random() *
+                        colors.length
+                    )
+                    ];
+
+
+                piece.style.animationDelay =
+                    Math.random() * .8 + "s";
+
+
+                document.body
+                    .appendChild(piece);
+
+
+                setTimeout(function () {
+
+                    piece.remove();
+
+                }, 4500);
+
+            }
+
+        }
+
+
+
+        /* ============================
+           REPLAY
+        ============================ */
+
+        function replayWebsite() {
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: "smooth"
+
+            });
+
+
+            document
+                .getElementById("finalMessage")
+                .classList
+                .remove("show");
+
+        }
+
+
+    </script>
+
+</body>
+
+</html>
+```
